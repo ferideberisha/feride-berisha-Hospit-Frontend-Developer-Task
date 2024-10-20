@@ -272,7 +272,7 @@ export default function UserManagement() {
 
         .user-management {
           background-color: white;
-          padding: 40px;
+          padding: 10px;
           border-radius: 10px;
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
           max-width: 1400px;

@@ -31,7 +31,10 @@ export default function CreateUser() {
 
     addUser(newUser);
     setSuccessMessage("User created successfully!");
-    router.push("/users");
+
+    setTimeout(() => {
+      router.push("/users");
+    }, 2000);
 
     setName("");
     setUsername("");
@@ -124,6 +127,12 @@ export default function CreateUser() {
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
           max-width: 500px;
           width: 100%;
+        }
+        h1 {
+          text-align: center;
+          margin-bottom: 20px;
+          font-size: 20px;
+          font-weight: bold;
         }
 
         .title {
