@@ -66,8 +66,8 @@ export default function Home() {
         }
 
         .button-container {
-          display: flex; /* Use flexbox to arrange buttons in a row */
-          gap: 1rem; /* Add space between buttons */
+          display: flex;
+          gap: 1rem;
         }
 
         .button {
@@ -78,7 +78,7 @@ export default function Home() {
           text-decoration: none;
           font-size: 1.2rem;
           transition: background-color 0.3s, color 0.3s;
-          cursor: pointer; /* Change cursor to pointer for button */
+          cursor: pointer;
         }
 
         .button:hover {
@@ -87,9 +87,9 @@ export default function Home() {
         }
 
         button:disabled {
-          background-color: #ddd; /* Change background color when disabled */
-          color: #aaa; /* Change text color when disabled */
-          cursor: not-allowed; /* Change cursor to not-allowed */
+          background-color: #ddd;
+          color: #aaa;
+          cursor: not-allowed;
         }
       `}</style>
     </div>
