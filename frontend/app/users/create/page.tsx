@@ -16,9 +16,12 @@ export default function CreateUser() {
   const [city, setCity] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true); // Set loading to true
+
     const newUser = {
       id: Math.floor(Math.random() * 1000), // Simulate ID
       name,
@@ -41,6 +44,8 @@ export default function CreateUser() {
     setSuite("");
     setCity("");
     setZipcode("");
+
+    setLoading(false); // Set loading to false after submission
   };
 
   return (
@@ -48,65 +53,70 @@ export default function CreateUser() {
       <div className="form-container">
         <h1 className="title">Create User</h1>
         {successMessage && <p className="success-message">{successMessage}</p>}
-        <form className="user-form" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Street"
-            value={street}
-            onChange={(e) => setStreet(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Suite"
-            value={suite}
-            onChange={(e) => setSuite(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="City"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Zipcode"
-            value={zipcode}
-            onChange={(e) => setZipcode(e.target.value)}
-            required
-          />
-          <button type="submit">Create User</button>
-        </form>
+        {loading ? ( // Conditional rendering for loading state
+          <div className="loading-container">
+            <div className="spinner"></div> {/* Loading spinner */}
+          </div>
+        ) : (
+          <form className="user-form" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Street"
+              value={street}
+              onChange={(e) => setStreet(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Suite"
+              value={suite}
+              onChange={(e) => setSuite(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="City"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Zipcode"
+              value={zipcode}
+              onChange={(e) => setZipcode(e.target.value)}
+              required
+            />
+            <button type="submit">Create User</button>
+          </form>
+        )}
       </div>
 
       <style jsx>{`

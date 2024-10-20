@@ -1,17 +1,47 @@
 "use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation"; // Import useRouter to handle navigation
 
 export default function Home() {
+  const [loadingSeeAll, setLoadingSeeAll] = useState(false); // Add loading state for "See All Users"
+  const [loadingCreateUser, setLoadingCreateUser] = useState(false); // Add loading state for "Create User"
+  const router = useRouter(); // Create a router instance
+
+  const handleSeeAllUsersClick = () => {
+    setLoadingSeeAll(true); // Set loading to true for "See All Users"
+    setTimeout(() => {
+      router.push("/users"); // Navigate after a short delay
+    }, 1000); // Delay for 1 second to show loader
+  };
+
+  const handleCreateUserClick = () => {
+    setLoadingCreateUser(true); // Set loading to true for "Create User"
+    setTimeout(() => {
+      router.push("/users/create"); // Navigate after a short delay
+    }, 1000); // Delay for 1 second to show loader
+  };
+
   return (
     <div className="home-container">
       <h1>Welcome to the User Management App</h1>
       <p>Manage your users effortlessly with our simple tool.</p>
       <div className="button-container">
-        <a href="/users" className="button">
-          See All Users
-        </a>
-        <a href="/users/create" className="button">
-          Create User
-        </a>
+        <button
+          className="button"
+          onClick={handleSeeAllUsersClick}
+          disabled={loadingSeeAll}
+        >
+          {loadingSeeAll ? "See All Users" : "See All Users"}{" "}
+          {/* Conditional button text */}
+        </button>
+        <button
+          className="button"
+          onClick={handleCreateUserClick}
+          disabled={loadingCreateUser}
+        >
+          {loadingCreateUser ? "Create User" : "Create User"}{" "}
+          {/* Conditional button text */}
+        </button>
       </div>
 
       <style jsx>{`
@@ -50,11 +80,18 @@ export default function Home() {
           text-decoration: none;
           font-size: 1.2rem;
           transition: background-color 0.3s, color 0.3s;
+          cursor: pointer; /* Change cursor to pointer for button */
         }
 
         .button:hover {
           background-color: #6a11cb;
           color: white;
+        }
+
+        button:disabled {
+          background-color: #ddd; /* Change background color when disabled */
+          color: #aaa; /* Change text color when disabled */
+          cursor: not-allowed; /* Change cursor to not-allowed */
         }
       `}</style>
     </div>
