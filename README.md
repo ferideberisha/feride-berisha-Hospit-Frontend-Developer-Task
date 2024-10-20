@@ -24,13 +24,13 @@ To get a local copy of this project up and running, follow these steps:
 
 1. **Clone the repository**:
 https://github.com/ferideberisha/feride-berisha-Hospit-Frontend-Developer-Task.git
-2.  **Navigate to the project directory**:  
+2.  **Navigate to the project directory**: 
 cd frontend
-3. **Install dependencies**:
+4. **Install dependencies**:
 npm install
-4. **Start the development server**:
+5. **Start the development server**:
 npm run dev
-5. **Open your browser**: Go to http://localhost:3000 to view the app.
+6. **Open your browser**: Go to http://localhost:3000 to view the app.
 
 ## Usage
 - On the home page, you can choose to see all users or create a new user.
