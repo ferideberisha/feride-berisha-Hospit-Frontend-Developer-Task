@@ -1,8 +1,12 @@
 "use client";
-
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useUserContext } from "@/app/context/UserContext"; // Import context
 
 export default function CreateUser() {
+  const { addUser } = useUserContext(); // Access context
+  const router = useRouter();
+
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -24,8 +28,9 @@ export default function CreateUser() {
       address: { street, suite, city, zipcode },
     };
 
-    console.log("User Created:", newUser);
+    addUser(newUser); // Add the new user to context
     setSuccessMessage("User created successfully!");
+    router.push("/users"); // Redirect to user list
 
     // Clear form after submission
     setName("");

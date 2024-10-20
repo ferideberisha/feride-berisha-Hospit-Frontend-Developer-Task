@@ -1,9 +1,9 @@
 // app/layout.tsx
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-//import Link from "next/link";
-import "./globals.css";
+import "./globals.css"; // Import global styles
 
+// Import fonts
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -15,34 +15,29 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+// Page metadata
 export const metadata: Metadata = {
   title: "User Management App",
   description: "Manage users with this simple app",
 };
 
+// Import UserProvider from context
+import { UserProvider } from "@/app/context/UserContext";
+
+// RootLayout component
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* <header>
-          <nav>
-            <ul>
-              <li>
-                <Link href="/home">Home</Link>
-              </li>
-              <li>
-                <Link href="/users">User Management</Link>
-              </li>
-            </ul>
-          </nav>
-        </header> */}
-        <main>{children}</main>
+        <UserProvider>
+          <main>{children}</main>
+        </UserProvider>
         <footer>
           <p></p>
         </footer>

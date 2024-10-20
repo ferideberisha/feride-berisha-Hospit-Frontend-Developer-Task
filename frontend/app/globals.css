@@ -26,3 +26,77 @@ body {
     text-wrap: balance;
   }
 }
+.update-button {
+  background-color: #4caf50; /* Green color for Update button */
+  color: white; /* Ensure text is white */
+  border: none; /* Remove border */
+  padding: 12px 20px; /* Increased padding for larger buttons */
+  min-width: 120px; /* Set a minimum width */
+  min-height: 30px;
+  font-size: 16px; /* Increased font size */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth transition for hover */
+}
+
+.cancel-button {
+  background-color: #f44336; /* Red color for Cancel button */
+  color: white; /* Ensure text is white */
+  border: none; /* Remove border */
+  padding: 12px 20px; /* Increased padding for larger buttons */
+  min-width: 100px; /* Set a minimum width */
+  min-height: 30px;
+  font-size: 16px; /* Increased font size */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth transition for hover */
+}
+
+.edit-button {
+  background-color: #4a90e2; /* Different color for Edit button */
+  color: white; /* Ensure text is white */
+  border: none; /* Remove border */
+  padding: 12px 20px; /* Increased padding for larger buttons */
+  min-width: 60px; /* Set a minimum width */
+  min-height: 30px;
+  font-size: 16px; /* Increased font size */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth transition for hover */
+  margin-right: 30px; /* Add margin to the right for spacing */
+  
+}
+
+.delete-button {
+  background-color: #f44336; /* Red color for Delete button */
+  color: white; /* Ensure text is white */
+  border: none; /* Remove border */
+  padding: 12px 20px; /* Increased padding for larger buttons */
+  min-width: 60px; /* Set a minimum width */
+  min-height: 30px;
+  font-size: 16px; /* Increased font size */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth transition for hover */
+}
+.update-button:hover {
+  background-color: #45a049; /* Darker shade for hover */
+}
+
+.cancel-button:hover {
+  background-color: #c62828; /* Darker shade for hover */
+}
+
+.edit-button:hover {
+  background-color: #2c5aa0; /* Darker shade for hover */
+}
+
+.delete-button:hover {
+  background-color: #c62828; /* Darker shade for hover */
+}
+
+
+.button-container {
+  display: flex;
+  gap: 10px; /* Add space between buttons */
+}
