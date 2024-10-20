@@ -6,8 +6,6 @@ This application allows users to efficiently manage their user data through a si
 - [Technologies Used](#technologies-used)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 - **View Users**: List all users with their details.
@@ -26,11 +24,15 @@ To get a local copy of this project up and running, follow these steps:
 
 1. **Clone the repository**:
 https://github.com/ferideberisha/feride-berisha-Hospit-Frontend-Developer-Task.git
-2.  **Clone the repository**:  
-cd user-management-app
+2.  **Navigate to the project directory**:  
+cd frontend
 3. **Install dependencies**:
 npm install
 4. **Start the development server**:
 npm run dev
 5. **Open your browser**: Go to http://localhost:3000 to view the app.
+
+## Usage
+- On the home page, you can choose to see all users or create a new user.
+- Use the user list to edit or delete existing users.
 
