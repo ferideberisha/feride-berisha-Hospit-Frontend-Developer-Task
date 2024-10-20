@@ -21,10 +21,8 @@ export const metadata: Metadata = {
   description: "Manage users with this simple app",
 };
 
-// Import UserProvider from context
 import { UserProvider } from "@/app/context/UserContext";
 
-// RootLayout component
 export default function RootLayout({
   children,
 }: {
