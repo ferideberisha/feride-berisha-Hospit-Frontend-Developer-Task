@@ -1,163 +1,110 @@
-// app/users/page.tsx
-"use client"; // Ensure this is marked as a Client Component
+"use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 interface User {
   id: number;
   name: string;
   username: string;
   email: string;
-  address: {
-    street: string;
-    suite: string;
-    city: string;
-    zipcode: string;
-  };
+  phone: string;
 }
 
+const apiUrl = "https://jsonplaceholder.typicode.com/users";
+
 export default function UserManagement() {
-  const [name, setName] = useState<string>("");
-  const [username, setUsername] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [street, setStreet] = useState<string>("");
-  const [suite, setSuite] = useState<string>("");
-  const [city, setCity] = useState<string>("");
-  const [zipcode, setZipcode] = useState<string>("");
-  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [users, setUsers] = useState<User[]>([]);
 
-  // Create user
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Simulate user creation
-    const newUser: User = {
-      id: Math.floor(Math.random() * 1000), // Simulate unique ID
-      name,
-      username,
-      email,
-      address: {
-        street,
-        suite,
-        city,
-        zipcode,
-      },
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get<User[]>(apiUrl);
+        setUsers(response.data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
     };
-
-    console.log("User Created: ", newUser); // Log the user creation for debugging
-    setSuccessMessage("User created successfully!"); // Success message
-    // Reset the form fields
-    setName("");
-    setUsername("");
-    setEmail("");
-    setStreet("");
-    setSuite("");
-    setCity("");
-    setZipcode("");
-  };
+    fetchUsers();
+  }, []);
 
   return (
     <div className="background">
-      <div className="container">
-        <h1 className="title">Create User</h1>
-        {successMessage && <p className="success-message">{successMessage}</p>}
-        <form className="user-form" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Street"
-            value={street}
-            onChange={(e) => setStreet(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Suite"
-            value={suite}
-            onChange={(e) => setSuite(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="City"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Zipcode"
-            value={zipcode}
-            onChange={(e) => setZipcode(e.target.value)}
-            required
-          />
-          <button type="submit">Create User</button>
-        </form>
+      <div className="user-management">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Phone</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.id}>
+                <td>{user.name}</td>
+                <td>{user.username}</td>
+                <td>{user.email}</td>
+                <td>{user.phone}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       <style jsx>{`
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
         .background {
-          height: 100vh; /* Full height background */
-          background-color: #e0f7fa; /* Light background color */
-          display: flex;
-          justify-content: center;
-          align-items: center;
+          min-height: 100vh;
+          background: linear-gradient(to right, #ffecd2, #fcb69f);
+          padding: 40px 20px; /* Padding for space around the content */
         }
-        .container {
-          max-width: 500px; /* Center the entire container */
-          padding: 40px 20px;
-          background-color: #ffffff; /* White background for the form */
-          border-radius: 8px;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+        .user-management {
+          background-color: white;
+          padding: 40px;
+          border-radius: 10px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+          max-width: 900px;
+          margin: 0 auto; /* Center horizontally */
         }
-        .title {
+
+        h1 {
           text-align: center;
+          margin-bottom: 30px;
           color: #333;
         }
-        .user-form {
-          display: flex;
-          flex-direction: column;
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 10px;
         }
-        input {
-          padding: 10px;
-          margin: 10px 0;
-          border: 1px solid #ccc;
-          border-radius: 4px;
+
+        th,
+        td {
+          padding: 16px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
         }
-        button {
-          padding: 10px;
-          background-color: #28a745;
+
+        th {
+          background-color: #4caf50;
           color: white;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
         }
-        button:hover {
-          background-color: #218838;
+
+        tr:nth-child(even) {
+          background-color: #f2f2f2;
         }
-        .success-message {
-          text-align: center;
-          color: #28a745;
-          font-weight: bold;
+
+        tr:hover {
+          background-color: #ddd;
         }
       `}</style>
     </div>
