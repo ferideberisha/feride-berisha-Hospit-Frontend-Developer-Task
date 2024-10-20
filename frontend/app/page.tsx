@@ -1,24 +1,24 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Import useRouter to handle navigation
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const [loadingSeeAll, setLoadingSeeAll] = useState(false); // Add loading state for "See All Users"
-  const [loadingCreateUser, setLoadingCreateUser] = useState(false); // Add loading state for "Create User"
-  const router = useRouter(); // Create a router instance
+  const [loadingSeeAll, setLoadingSeeAll] = useState(false);
+  const [loadingCreateUser, setLoadingCreateUser] = useState(false);
+  const router = useRouter();
 
   const handleSeeAllUsersClick = () => {
-    setLoadingSeeAll(true); // Set loading to true for "See All Users"
+    setLoadingSeeAll(true);
     setTimeout(() => {
-      router.push("/users"); // Navigate after a short delay
-    }, 1000); // Delay for 1 second to show loader
+      router.push("/users");
+    }, 1000);
   };
 
   const handleCreateUserClick = () => {
-    setLoadingCreateUser(true); // Set loading to true for "Create User"
+    setLoadingCreateUser(true);
     setTimeout(() => {
-      router.push("/users/create"); // Navigate after a short delay
-    }, 1000); // Delay for 1 second to show loader
+      router.push("/users/create");
+    }, 1000);
   };
 
   return (
@@ -32,7 +32,6 @@ export default function Home() {
           disabled={loadingSeeAll}
         >
           {loadingSeeAll ? "See All Users" : "See All Users"}{" "}
-          {/* Conditional button text */}
         </button>
         <button
           className="button"
@@ -40,7 +39,6 @@ export default function Home() {
           disabled={loadingCreateUser}
         >
           {loadingCreateUser ? "Create User" : "Create User"}{" "}
-          {/* Conditional button text */}
         </button>
       </div>
 
