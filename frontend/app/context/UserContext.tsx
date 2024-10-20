@@ -1,4 +1,4 @@
-"use client"; // This file is a Client Component
+"use client";
 
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
@@ -19,8 +19,8 @@ interface User {
 interface UserContextType {
   users: User[];
   addUser: (user: User) => void;
-  deleteUser: (userId: number) => void; // Add deleteUser function
-  updateUser: (user: User) => void; // Add updateUser function
+  deleteUser: (userId: number) => void;
+  updateUser: (userId: number, updatedUser: Omit<User, "id">) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -38,9 +38,11 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
   };
 
-  const updateUser = (updatedUser: User) => {
+  const updateUser = (userId: number, updatedUser: Omit<User, "id">) => {
     setUsers((prevUsers) =>
-      prevUsers.map((user) => (user.id === updatedUser.id ? updatedUser : user))
+      prevUsers.map((user) =>
+        user.id === userId ? { ...user, ...updatedUser } : user
+      )
     );
   };
 

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useUserContext } from "@/app/context/UserContext"; // Import context
+import { useUserContext } from "@/app/context/UserContext";
 
 interface User {
   id: number;
@@ -24,7 +24,7 @@ export default function UserManagement() {
   const { users: contextUsers, deleteUser, updateUser } = useUserContext();
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [formData, setFormData] = useState<Omit<User, "id"> | null>(null);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -34,7 +34,7 @@ export default function UserManagement() {
       } catch (error) {
         console.error("Error fetching users:", error);
       } finally {
-        setLoading(false); // Set loading to false when data is fetched
+        setLoading(false);
       }
     };
     fetchUsers();
@@ -48,22 +48,51 @@ export default function UserManagement() {
       username: user.username,
       email: user.email,
       phone: user.phone,
-      address: user.address, // Include address in the form data
+      address: {
+        street: user.address?.street || "",
+        suite: user.address?.suite || "",
+        city: user.address?.city || "",
+        zipcode: user.address?.zipcode || "",
+      },
     });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (formData) {
-      setFormData({ ...formData, [name]: value });
+      if (name.startsWith("address.")) {
+        const addressField = name.split(".")[1];
+        setFormData({
+          ...formData,
+          address: {
+            ...formData.address!,
+            [addressField]: value,
+          },
+        });
+      } else {
+        setFormData({ ...formData, [name]: value });
+      }
     }
   };
 
   const handleUpdateUser = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (editingUser && formData) {
-      const updatedUser = { ...editingUser, ...formData };
-      updateUser(updatedUser);
+      const updatedUser = { ...formData };
+
+      const isApiUser = apiUsers.some((user) => user.id === editingUser.id);
+
+      if (isApiUser) {
+        setApiUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user.id === editingUser.id ? { ...user, ...updatedUser } : user
+          )
+        );
+      }
+
+      updateUser(editingUser.id, updatedUser);
+
       setEditingUser(null);
       setFormData(null);
     }
@@ -91,7 +120,7 @@ export default function UserManagement() {
       <div className="user-management">
         {loading ? (
           <div className="loading-container">
-            <div className="spinner"></div> {/* Loading spinner */}
+            <div className="spinner"></div>
           </div>
         ) : editingUser ? (
           <div className="form-container">
@@ -131,7 +160,7 @@ export default function UserManagement() {
               />
               <input
                 type="text"
-                name="street"
+                name="address.street"
                 placeholder="Street"
                 value={formData?.address?.street || ""}
                 onChange={handleChange}
@@ -139,14 +168,14 @@ export default function UserManagement() {
               />
               <input
                 type="text"
-                name="suite"
+                name="address.suite"
                 placeholder="Suite"
                 value={formData?.address?.suite || ""}
                 onChange={handleChange}
               />
               <input
                 type="text"
-                name="city"
+                name="address.city"
                 placeholder="City"
                 value={formData?.address?.city || ""}
                 onChange={handleChange}
@@ -154,7 +183,7 @@ export default function UserManagement() {
               />
               <input
                 type="text"
-                name="zipcode"
+                name="address.zipcode"
                 placeholder="Zipcode"
                 value={formData?.address?.zipcode || ""}
                 onChange={handleChange}
@@ -182,7 +211,7 @@ export default function UserManagement() {
                 <th>Username</th>
                 <th>Email</th>
                 <th>Phone</th>
-                <th>Address</th> {/* New column for Address */}
+                <th>Address</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -194,15 +223,11 @@ export default function UserManagement() {
                   <td>{user.email}</td>
                   <td>{user.phone}</td>
                   <td>
-                    {/* Display the address */}
-                    {user.address ? (
+                    {user.address && (
                       <div>
-                        {user.address.street}{" "}
-                        {user.address.suite ? `(${user.address.suite})` : ""},{" "}
+                        {user.address.street} {user.address.suite},{" "}
                         {user.address.city} {user.address.zipcode}
                       </div>
-                    ) : (
-                      "N/A" // Display "N/A" if there's no address
                     )}
                   </td>
                   <td>
