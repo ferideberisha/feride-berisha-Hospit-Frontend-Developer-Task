@@ -21,9 +21,10 @@ const apiUrl = "https://jsonplaceholder.typicode.com/users";
 
 export default function UserManagement() {
   const [apiUsers, setApiUsers] = useState<User[]>([]);
-  const { users: contextUsers, deleteUser, updateUser } = useUserContext(); // Use deleteUser from context
+  const { users: contextUsers, deleteUser, updateUser } = useUserContext();
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [formData, setFormData] = useState<Omit<User, "id"> | null>(null);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -32,12 +33,13 @@ export default function UserManagement() {
         setApiUsers(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
+      } finally {
+        setLoading(false); // Set loading to false when data is fetched
       }
     };
     fetchUsers();
   }, []);
-
-  const users = [...contextUsers, ...apiUsers]; // Combine API and context users
+  const users = [...contextUsers, ...apiUsers];
 
   const handleEditClick = (user: User) => {
     setEditingUser(user);
@@ -46,6 +48,7 @@ export default function UserManagement() {
       username: user.username,
       email: user.email,
       phone: user.phone,
+      address: user.address, // Include address in the form data
     });
   };
 
@@ -60,11 +63,12 @@ export default function UserManagement() {
     e.preventDefault();
     if (editingUser && formData) {
       const updatedUser = { ...editingUser, ...formData };
-      updateUser(updatedUser); // Use context to update user
-      setEditingUser(null); // Close the edit form
-      setFormData(null); // Clear the form data
+      updateUser(updatedUser);
+      setEditingUser(null);
+      setFormData(null);
     }
   };
+
   const handleCancelEdit = () => {
     setEditingUser(null);
     setFormData(null);
@@ -75,17 +79,21 @@ export default function UserManagement() {
       "Are you sure you want to delete this user?"
     );
     if (confirmDelete) {
-      deleteUser(userId); // Call deleteUser from context
+      deleteUser(userId);
       setApiUsers((prevUsers) =>
         prevUsers.filter((user) => user.id !== userId)
-      ); // Optionally keep this
+      );
     }
   };
 
   return (
     <div className="background">
       <div className="user-management">
-        {editingUser ? (
+        {loading ? (
+          <div className="loading-container">
+            <div className="spinner"></div> {/* Loading spinner */}
+          </div>
+        ) : editingUser ? (
           <div className="form-container">
             <h2>Edit User</h2>
             <form onSubmit={handleUpdateUser}>
@@ -121,6 +129,37 @@ export default function UserManagement() {
                 onChange={handleChange}
                 required
               />
+              <input
+                type="text"
+                name="street"
+                placeholder="Street"
+                value={formData?.address?.street || ""}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                name="suite"
+                placeholder="Suite"
+                value={formData?.address?.suite || ""}
+                onChange={handleChange}
+              />
+              <input
+                type="text"
+                name="city"
+                placeholder="City"
+                value={formData?.address?.city || ""}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                name="zipcode"
+                placeholder="Zipcode"
+                value={formData?.address?.zipcode || ""}
+                onChange={handleChange}
+                required
+              />
               <div className="button-container">
                 <button type="submit" className="update-button">
                   Update User
@@ -143,6 +182,7 @@ export default function UserManagement() {
                 <th>Username</th>
                 <th>Email</th>
                 <th>Phone</th>
+                <th>Address</th> {/* New column for Address */}
                 <th>Actions</th>
               </tr>
             </thead>
@@ -153,6 +193,18 @@ export default function UserManagement() {
                   <td>{user.username}</td>
                   <td>{user.email}</td>
                   <td>{user.phone}</td>
+                  <td>
+                    {/* Display the address */}
+                    {user.address ? (
+                      <div>
+                        {user.address.street}{" "}
+                        {user.address.suite ? `(${user.address.suite})` : ""},{" "}
+                        {user.address.city} {user.address.zipcode}
+                      </div>
+                    ) : (
+                      "N/A" // Display "N/A" if there's no address
+                    )}
+                  </td>
                   <td>
                     <div className="button-container">
                       <button
